@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CWE 검색 결과</title>
+    <style>
+        body { display: flex; margin: 0; font-family: Arial, sans-serif; }
+        .main {
+            flex: 1;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .sidebar {
+            flex: 1;
+            padding: 20px;
+            border-left: 1px solid #ccc;
+            background-color: #f9f9f9;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .sidebar h3 { margin-top: 0; }
+        .cwe-item { margin-bottom: 20px; }
+        .cwe-title { font-weight: bold; }
+        .cwe-desc { margin: 5px 0; color: #333; }
+        .cwe-mit { font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h2>🔍 검색</h2>
+        <form action="{{ url_for('search_default') }}" method="POST" style="display: inline;">
+            <button type="submit">기본 키워드 전체 검색</button>
+        </form>
+        <form action="{{ url_for('search') }}" method="POST" style="display: inline; margin-left: 10px;">
+            <input type="text" name="keyword" placeholder="검색어 입력" required>
+            <button type="submit">검색</button>
+        </form>
+        <form action="{{ url_for('reset_db') }}" method="POST" style="display: inline; margin-left: 10px;">
+            <button type="submit" onclick="return confirm('정말로 DB를 초기화할까요?')">DB 초기화</button>
+        </form>
+
+        <hr>
+        <h4>🆕 이번에 추가된 결과</h4>
+        <ul id="live-results"></ul>
+    </div>
+
+    <div class="sidebar">
+        <h3>📋 현재 DB 내용</h3>
+        {% for keyword, title, link, description, mitigation in results %}
+            <div class="cwe-item">
+                <div class="cwe-title">
+                    <a href="{{ link }}" target="_blank">{{ title }}</a>
+                </div>
+                <div class="cwe-desc">📘 {{ description }}</div>
+                <div class="cwe-mit">🛡️ {{ mitigation }}</div>
+            </div>
+        {% endfor %}
+
+        <div style="margin-top: 20px;">
+            <strong>페이지:</strong>
+            {% for p in range(1, total_pages + 1) %}
+                {% if p == page %}
+                    <strong>[{{ p }}]</strong>
+                {% else %}
+                    <a href="{{ url_for('search', page=p) }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
