@@ -5,13 +5,13 @@ beautifulsoup4
 openai
 python-dotenv
 
-# playwright 설치 후 실행에 필요한 브라우저 설치 명령은 Render에서 실행 불가이므로 local에서 playwright install 해두는 게 좋습니다
+# ⛔ playwright 설치 후 브라우저 설치 명령 (Render에서 실행 불가하므로 local에서 먼저 실행하세요!)
+# 👉 반드시 로컬에서 실행: playwright install
 
 
-# ✅ .gitignore (GitHub에 올리지 말아야 할 파일)
+# ✅ .gitignore (GitHub에 올리지 말아야 할 파일들)
 __pycache__/
 .env
-cwe.db
 *.pyc
 *.log
 
@@ -20,17 +20,27 @@ cwe.db
 
 # CWE Keyword Scraper Web App
 
-A simple Flask-based app to search for CWE entries and store results, designed for deployment on Render.
+A Flask-based web app to search for CWE entries, preview/save results to a database, and manage exceptions.  
+Designed for deployment on [Render](https://render.com).
+
+---
 
 ## 📦 Features
-- Keyword search with default or manual input
-- SQLite database for result storage
-- Pagination UI
+
+- ✅ Manual or multiple keyword-based CWE search
+- ✅ Search preview before saving to DB
+- ✅ Filter out duplicates and exception entries
+- ✅ SQLite database to store or exclude entries
+- ✅ Delete individual entries from DB or exception list
+- ✅ Pagination for both DB and exception list
+- ✅ 3-column layout: search area / DB list / excluded list
+
+---
 
 ## 🚀 Deploying on Render
 
-### 1. Prepare Repository
-Upload these files to your GitHub repository:
+### 1. Prepare GitHub Repository  
+Include the following files:
 - app.py
 - model.py
 - scraper.py
@@ -38,26 +48,20 @@ Upload these files to your GitHub repository:
 - requirements.txt
 - .gitignore
 
+---
+
 ### 2. Create Web Service on Render
-- Go to [https://render.com](https://render.com) and create a new Web Service
-- Choose your GitHub repository
-- Use these settings:
-  - **Build Command:** pip install -r requirements.txt
-  - **Start Command:** python app.py
-  - **Environment:** Python
-  - **Free Plan:** Yes
 
-### 3. (Optional) Set Environment Variable
-If using GPT:
-OPENAI_API_KEY=sk-xxxxxxx
+- Go to 👉 [https://render.com](https://render.com)
+- New → **Web Service**
+- Connect your GitHub repo
+- Fill out settings:
 
+| 항목 | 설정값 |
+|------|--------|
+| **Build Command** | `pip install -r requirements.txt` |
+| **Start Command** | `python app.py` |
+| **Environment** | Python |
+| **Free Plan** | ✔️ Yes |
 
-Go to **Render → Your Service → Environment → Add Environment Variable**
-
-### 4. Run
-Once deployed, visit your live site at:
-https://your-app-name.onrender.com
-
-
-Happy scraping! 🕵️‍♀️
-이 코드 어디에 어떻게 만드는 거야? 나 아무것도 안 했어
+---
