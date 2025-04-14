@@ -1,6 +1,9 @@
 import sqlite3
 import math
 
+PER_PAGE = 25  # 페이지당 항목 수 (필요할 때마다 여기만 수정!)
+
+
 def init_db():
     conn = sqlite3.connect('cwe.db')
     c = conn.cursor()
@@ -82,7 +85,7 @@ def fetch_excluded_links():
     conn.close()
     return excluded
 
-def fetch_from_db(page, per_page=30):
+def fetch_from_db(page, per_page=PER_PAGE):
     conn = sqlite3.connect("cwe.db")
     c = conn.cursor()
     offset = (page - 1) * per_page
@@ -94,7 +97,7 @@ def fetch_from_db(page, per_page=30):
     conn.close()
     return results, total_pages, total
 
-def fetch_excluded(page, per_page=30):
+def fetch_excluded(page, per_page=PER_PAGE):
     conn = sqlite3.connect("cwe.db")
     c = conn.cursor()
     offset = (page - 1) * per_page
@@ -107,7 +110,7 @@ def fetch_excluded(page, per_page=30):
     conn.close()
     return results, total_pages, total
 
-def fetch_excluded_from_db(page, per_page=30):
+def fetch_excluded_from_db(page, per_page=PER_PAGE):
     conn = sqlite3.connect("cwe.db")
     c = conn.cursor()
     offset = (page - 1) * per_page
